@@ -29,7 +29,7 @@ function Banner() {
     // console.log("movieD", movie?.videos?.results[0]?.key);
   };
 
-  //   console.log('str', movie.overview.length)
+//   console.log('cehck', movie.video?.results)
   const truncate = (str, n) => {
     return str?.length > n ? str.substring(0, n) + "..." : str;
   };
@@ -48,6 +48,7 @@ function Banner() {
         <hi className='banner_title'>{movie.title || movie.name || movie.original_name}</hi>
         <div className='banner_buttons'>
           {movie?.videos?.results[0]?.key && <button className='banner_button play'>Play</button>}
+          {/* <button>test</button> */}
         </div>
         {/* <h1 className='banner_desc'>{movie.overview}</h1> */}
         <h1 className='banner_desc'>{truncate(movie.overview, 100)}</h1>
