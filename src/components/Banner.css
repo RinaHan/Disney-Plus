@@ -1,6 +1,7 @@
 .banner {
   color: white;
   object-fit: contain;
+  /* height: 1000vh; */
   height: 448px;
 }
 @media (min-width: 1500px) {
