@@ -8,12 +8,14 @@
   .banner {
     position: relative;
     height: 600px;
+    /* background-color: red; */
   }
-  .banner-fadeBottom {
+  .banner--fadeBottom {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 40rem;
+    /* background-color: pink; */
   }
 }
 @media (max-width: 768px) {
