@@ -1,5 +1,7 @@
 import axios from "../api/axios";
 import React, { useCallback, useEffect, useState } from "react";
+import "./Row.css";
+
 // import requests from "../api/request";
 
 const Row = (props) => {
@@ -23,7 +25,7 @@ const Row = (props) => {
     <div>
       <h2>{props.title}</h2>
       <div className='slider'>
-        <div className='slider_arrow-left'>
+        <div className='slider_arrow left'>
           <span className='arrow'>{"<"}</span>
         </div>
         <div id={props.id} className='row_posters'>
@@ -37,7 +39,7 @@ const Row = (props) => {
             />
           ))}
         </div>
-        <div className='slider_arrow-right'>
+        <div className='slider_arrow right'>
           <span className='arrow'>{">"}</span>
         </div>
       </div>
