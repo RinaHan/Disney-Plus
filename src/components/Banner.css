@@ -2,7 +2,9 @@
   color: white;
   object-fit: contain;
   height: 448px;
-  /* height: 1000vh; */
+  /* background-size: cover;
+  background-position: "top center";
+  background-image: url('https://image.tmdb.org/t/p/original/${movie.backdrop_path}'); */
 }
 @media (min-width: 1500px) {
   .banner {

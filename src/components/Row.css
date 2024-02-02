@@ -37,8 +37,8 @@
 }
 .slider_arrow:hover {
   /* background-color: rgba(20, 20, 20, 0.5); */
-  /* visibility: visible; */
-  /* transition: 400ms all ease-in-out; */
+  visibility: visible;
+  transition: 400ms all ease-in-out;
 }
 .row_posters {
   display: flex;

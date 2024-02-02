@@ -4,7 +4,7 @@ import "./Row.css";
 
 // import requests from "../api/request";
 
-const Row = (props) => {
+const Row = (props, id) => {
   // const Row = (title, id, fetchUrl) => {
   // console.log('fet',props.fetchUrl)
   const [movies, setMovies] = useState([]);
@@ -26,8 +26,16 @@ const Row = (props) => {
       <h2>{props.title}</h2>
       <div className='slider'>
         <div className='slider_arrow left'>
-          <span className='arrow'>{"<"}</span>
+          <span
+            className='arrow'
+            onClick={() => {
+              document.getElementById(props.id).scrollLeft -= window.innerWidth - 80;
+            }}
+          >
+            {"<"}
+          </span>
         </div>
+        {/* {console.log("id", document.getElementById(props.id))} */}
         <div id={props.id} className='row_posters'>
           {movies.map((movie) => (
             // console.log('mov', movie.id)
@@ -40,7 +48,14 @@ const Row = (props) => {
           ))}
         </div>
         <div className='slider_arrow right'>
-          <span className='arrow'>{">"}</span>
+          <span
+            className='arrow'
+            onClick={() => {
+              document.getElementById(props.id).scrollLeft += window.innerWidth + 80;
+            }}
+          >
+            {">"}
+          </span>
         </div>
       </div>
     </div>
