@@ -11,6 +11,7 @@ function Banner() {
   useEffect(() => {
     fetchData();
   }, []);
+
   const fetchData = async () => {
     //call now playing movies
     const response = await axios.get(requests.fetchNowPlaying);
@@ -59,7 +60,7 @@ function Banner() {
           ></Iframe> */}
           </HomeContainer>
         </Container>
-        <button onClick={()=>setIsClicked(false)}>X</button>
+        <button onClick={() => setIsClicked(false)}>X</button>
       </>
     );
   } else {
@@ -67,7 +68,7 @@ function Banner() {
       <header
         className='banner'
         style={{
-          backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
+          backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie.backdrop_path}')`,
           backgroundPosition: "top center",
           backgroundSize: "cover",
         }}
