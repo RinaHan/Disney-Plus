@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 function Nav() {
   const [show, setShow] = useState(false);
-
+// console.log('show', show===true)
   useEffect(() => {
     window.addEventListener("scroll", () => {
+      // console.log('show', show===true)
       if (window.scrollY > 50) {
         setShow(true);
       } else {
@@ -18,7 +19,7 @@ function Nav() {
   }, []);
 
   return (
-    <NavWrapper show={show}>
+    <NavWrapper show2={show}>
       <Logo>
         <img
           alt='Disney Plus Logo'
@@ -38,8 +39,10 @@ const NavWrapper = styled.nav`
   left: 0;
   right: 0;
   height: 70px;
-  background-color: ${(props) => (props.show ? "#090b13" : "trnasparent")};
-  /* background-color: #090b13; */
+  /* ${(props) => (props.show2 ? `backgroundColor:#dad` : `backgroundColor:#999`)}; */
+  /* background-color: ${(props) => (props.show2 ? "#090b13" : "transparent")}; */
+  background-color: ${(props) => (props.show2 ? "#090b13" : "transparent")};
+
   display: flex;
   justify-content: space-between;
   align-items: center;
