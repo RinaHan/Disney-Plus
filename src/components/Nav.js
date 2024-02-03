@@ -3,21 +3,21 @@ import styled from "styled-components";
 
 function Nav() {
   const [show, setShow] = useState(false);
-// console.log('show', show===true)
+  // console.log('show', show===true)
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      // console.log('show', show===true)
-      if (window.scrollY > 50) {
-        setShow(true);
-      } else {
-        setShow(false);
-      }
-    });
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", () => {});
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  };
   return (
     <NavWrapper show2={show}>
       <Logo>
