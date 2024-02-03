@@ -68,7 +68,7 @@ const Row = (props, id) => {
           </span>
         </div>
       </div>
-      {setModalOpen && <MovieModal {...movieSelected} setModalOpen={setModalOpen} />}
+      {modalOpen && <MovieModal {...movieSelected} setModalOpen={setModalOpen} />}
     </div>
   );
 };
