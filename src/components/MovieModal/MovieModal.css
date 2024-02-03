@@ -25,8 +25,9 @@
   background: #111;
   overflow: hidden;
   border-radius: 8px;
-  transition: all 400ms ease0in0out 2s;
+  transition: all 400ms ease-in-out 2s;
   animation: fadeIn 400ms;
+  height: 50em;
 }
 @keyframes fadeIn {
   from {
@@ -45,11 +46,13 @@
 .modal_contents {
   padding: 40px;
   color: white;
+  /* background-color: red; */
 }
 .modal_title {
   padding: 0;
   font-size: 40px;
   margin: 16px 0;
+  /* background-color: blue; */
 }
 .modal_details {
   font-weight: 600;
@@ -59,13 +62,13 @@
   font-size: 20px;
   line-height: 1.5;
 }
-.modal::-webkit-scrollbar {
+/* .modal::-webkit-scrollbar {
   display: none;
   visibility: hidden;
-}
+} */
 @media screen and (max-height: 768px) {
   .wrapper-modal {
-    align-items: unset;
+    /* align-items: unset; */
     padding-top: 2rem;
   }
   .modal {
