@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 function Nav() {
   const [show, setShow] = useState(false);
@@ -12,6 +12,19 @@ function Nav() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      // console.log('user', user);
+      if (user) {
+        if (pathname === "/") {
+          navigate("/main");
+        }
+      } else {
+        navigate("/");
+      }
+    });
+  }, [auth, navigate, pathname]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -37,6 +50,7 @@ function Nav() {
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        console.log("auth: ", auth);
         // // This gives you a Google Access Token. You can use it to access the Google API.
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential.accessToken;

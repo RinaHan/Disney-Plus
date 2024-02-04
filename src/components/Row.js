@@ -71,7 +71,7 @@ const Row = (props, id) => {
         <Content id={id}>
           {movies.map((movie) => (
             // console.log('mov', movie.id)
-            <SwiperSlide>
+            <SwiperSlide key={movie.id}>
               <Wrap>
                 <img
                   key={movie.id}
