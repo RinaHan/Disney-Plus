@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+// console.log('getAuth: ', getAuth());
 
 function Nav() {
   const [show, setShow] = useState(false);
@@ -12,6 +19,8 @@ function Nav() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  const [userData, setUserData] = useState({});
+  console.log("userData: ", userData);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -43,32 +52,29 @@ function Nav() {
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
-    console.log("target", e.target.value);
+    // console.log("target", e.target.value);
     navigate(`/search?q=${e.target.value}`);
   };
 
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("auth: ", auth);
-        // // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential.accessToken;
-        // // The signed-in user info.
-        // const user = result.user;
-        // // IdP data available using getAdditionalUserInfo(result)
-        // // ...
+        // console.log('result: ', result);
+        setUserData(result.user);
       })
       .catch((error) => {
         console.log("error", error);
-        //     // Handle Errors here.
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
-        // // The email of the user's account used.
-        // const email = error.customData.email;
-        // // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error);
-        // // ...
+      });
+  };
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUserData({});
+        navigate("/");
+      })
+      .catch((error) => {
+        // alert(error.message);
+        console.log("error", error);
       });
   };
 
@@ -84,13 +90,24 @@ function Nav() {
       {pathname === "/" ? (
         <Login onClick={handleAuth}>Login</Login>
       ) : (
-        <Input
-          value={searchValue}
-          onChange={handleChange}
-          className='nav_input'
-          type='text'
-          placeholder='search movie'
-        />
+        <>
+          <Input
+            value={searchValue}
+            onChange={handleChange}
+            className='nav_input'
+            type='text'
+            placeholder='search movie'
+          />
+          {/* {pathname !== "/" && ( */}
+          <SignOut>
+            {/* {userData.displayName} */}
+            <UserImg src={userData.photoURL} alt={userData.displayName} />
+            <DropDown>
+              <span onClick={handleSignOut}>Sign out</span>
+            </DropDown>
+          </SignOut>
+          {/* )} */}
+        </>
       )}
     </NavWrapper>
   );
@@ -153,4 +170,39 @@ const Logo = styled.a`
     display: block;
     width: 100%;
   }
+`;
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  bax-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  font-size: 14px;
+  padding: 10px;
+  letter-spacing: 3px;
+  width: 100%;
+  opacity: 0;
+`;
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+  }
+`;
+const UserImg = styled.img`
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
 `;
