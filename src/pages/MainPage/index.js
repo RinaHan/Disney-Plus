@@ -12,7 +12,7 @@ function MainPage() {
       <Nav />
       <Banner />
       <Category />
-      <Row title='Tending Now' id='TN' fetchUrl={requests.fetchNowPlaying}></Row>
+      <Row title='Trending Now' id='TN' fetchUrl={requests.fetchNowPlaying}></Row>
       <Row title='Top Rated' id='TR' fetchUrl={requests.fetchTopRated}></Row>
       <Row title='Action Movies' id='AM' fetchUrl={requests.fetchActionMovies}></Row>
       <Row title='Comedy Movies' id='CM' fetchUrl={requests.fetchComedyMovies}></Row>
