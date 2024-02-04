@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import "./SearchPage.css";
 
 export const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -42,7 +43,7 @@ export const SearchPage = () => {
               <div className='movie' key={movie.id}>
                 <div className='movie_column-poster' onClick={() => navigate(`/${movie.id}`)}>
                   {/* <div onClick={() => Navigate(`/${movie.id}`)} className='movie_column-poster'> */}
-                  <img src={movieImageUrl} alt='movie' className='movie_poster' />
+                  <img className='movie_poster' src={movieImageUrl} alt='movie' />
                 </div>
               </div>
             );
@@ -54,7 +55,7 @@ export const SearchPage = () => {
     return (
       <section className='no-results'>
         <div className='no-results_text'>
-          <p>no results of "{searchTerm}"</p>
+          <p>There are no results of "{searchTerm}"</p>
         </div>
       </section>
     );
