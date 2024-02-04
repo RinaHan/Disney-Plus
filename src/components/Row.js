@@ -27,7 +27,7 @@ const Row = (props, id) => {
   const handleClick = (movie) => {
     setModalOpen(true);
     setMovieSelected(movie)
-    console.log('handleclick', movie)
+    // console.log('handleclick', movie)
   };
 
   return (

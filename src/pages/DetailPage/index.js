@@ -14,7 +14,7 @@ export const DetailPage = () => {
     async function fetchData() {
       const response = await axios.get(`/movie/${movieId}`);
       setMovie(response.data);
-      console.log("response", response.data.backdrop_path);
+      // console.log("response", response.data.backdrop_path);
     }
     fetchData();
   }, [movieId]);
