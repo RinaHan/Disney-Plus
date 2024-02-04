@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 function Nav() {
   const [show, setShow] = useState(false);
@@ -9,9 +10,8 @@ function Nav() {
   // console.log('location', useLocation().search)
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
-
-  
-
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -34,6 +34,30 @@ function Nav() {
     navigate(`/search?q=${e.target.value}`);
   };
 
+  const handleAuth = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential.accessToken;
+        // // The signed-in user info.
+        // const user = result.user;
+        // // IdP data available using getAdditionalUserInfo(result)
+        // // ...
+      })
+      .catch((error) => {
+        console.log("error", error);
+        //     // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // // ...
+      });
+  };
+
   return (
     <NavWrapper show2={show}>
       <Logo>
@@ -44,7 +68,7 @@ function Nav() {
         />
       </Logo>
       {pathname === "/" ? (
-        <Login>Login</Login>
+        <Login onClick={handleAuth}>Login</Login>
       ) : (
         <Input
           value={searchValue}
