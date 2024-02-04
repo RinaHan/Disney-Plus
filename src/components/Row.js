@@ -2,15 +2,25 @@ import axios from "../api/axios";
 import React, { useCallback, useEffect, useState } from "react";
 import "./Row.css";
 import MovieModal from "./MovieModal";
-
 // import requests from "../api/request";
+
+// import Swiper core and required modules
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import styled from "styled-components";
 
 const Row = (props, id) => {
   // const Row = (title, id, fetchUrl) => {
   // console.log('fet',props.fetchUrl)
   const [movies, setMovies] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [movieSelected, setMovieSelected] = useState({})
+  const [movieSelected, setMovieSelected] = useState({});
 
   const fetchMovieData = useCallback(async () => {
     // const response = await axios.get(fetchUrl);
@@ -26,51 +36,47 @@ const Row = (props, id) => {
 
   const handleClick = (movie) => {
     setModalOpen(true);
-    setMovieSelected(movie)
+    setMovieSelected(movie);
     // console.log('handleclick', movie)
   };
 
   return (
-    <div>
+    <Container>
       <h2>{props.title}</h2>
-      <div className='slider'>
-        <div className='slider_arrow left'>
-          <span
-            className='arrow'
-            onClick={() => {
-              document.getElementById(props.id).scrollLeft -= window.innerWidth - 80;
-            }}
-          >
-            {"<"}
-          </span>
-        </div>
-        {/* {console.log("id", document.getElementById(props.id))} */}
-        <div id={props.id} className='row_posters'>
+      <Swiper
+        //install Swiper modules
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        loop={true} //use loop ability
+        navigation //arrow button
+        pagination={{ clickable: true }} //page button
+      >
+        <Content id={id}>
           {movies.map((movie) => (
             // console.log('mov', movie.id)
-            <img
-              key={movie.id}
-              className='row_poster'
-              src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-              alt={movie.name}
-              onClick={() => handleClick(movie)}
-            />
+            <SwiperSlide>
+              <Wrap>
+                <img
+                  key={movie.id}
+                  className='row_poster'
+                  src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+                  alt={movie.name}
+                  onClick={() => handleClick(movie)}
+                />
+              </Wrap>
+            </SwiperSlide>
           ))}
-        </div>
-        <div className='slider_arrow right'>
-          <span
-            className='arrow'
-            onClick={() => {
-              document.getElementById(props.id).scrollLeft += window.innerWidth + 80;
-            }}
-          >
-            {">"}
-          </span>
-        </div>
-      </div>
+        </Content>
+      </Swiper>
       {modalOpen && <MovieModal {...movieSelected} setModalOpen={setModalOpen} />}
-    </div>
+    </Container>
   );
 };
 
 export default Row;
+
+const Container = styled.div`
+  padding: 0 0 26px;
+`;
+
+const Content = styled.div``;
+const Wrap = styled.div``
