@@ -5,9 +5,13 @@ import styled from "styled-components";
 function Nav() {
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
+  // console.log('location', useLocation().pathname)
+  // console.log('location', useLocation().search)
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
-  // console.log('pathname', pathname)
+
+  
+
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -26,7 +30,7 @@ function Nav() {
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
-    // console.log("target", e.target.value);
+    console.log("target", e.target.value);
     navigate(`/search?q=${e.target.value}`);
   };
 
