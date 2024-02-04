@@ -11,6 +11,10 @@ import {
 // console.log('getAuth: ', getAuth());
 
 function Nav() {
+  const initailUserData = localStorage.getItem("userData")
+    ? JSON.parse(localStorage.getItem("userData"))
+    : {};
+
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
   // console.log('location', useLocation().pathname)
@@ -19,8 +23,8 @@ function Nav() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [userData, setUserData] = useState({});
-  console.log("userData: ", userData);
+  const [userData, setUserData] = useState(initailUserData);
+  // console.log("userData: ", userData);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -60,7 +64,8 @@ function Nav() {
     signInWithPopup(auth, provider)
       .then((result) => {
         // console.log('result: ', result);
-        setUserData(result.user);
+        // setUserData(result.user);
+        localStorage.setItem("userData", JSON.stringify(result.user));
       })
       .catch((error) => {
         console.log("error", error);
