@@ -12,7 +12,7 @@ export const SearchPage = () => {
   };
 
   let query = useQuery();
-  // console.log("query: ", query.get("q"));
+  // 
   const searchTerm = query.get("q");
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   // const debouncedSearchTerm = useDebounce(query.get('q'), 500)
@@ -32,13 +32,13 @@ export const SearchPage = () => {
   const fetchSearchMovie = async (searchTerm) => {
     try {
       const response = await axios.get(`/search/multi?include_adult=false&query=${searchTerm}`);
-      // console.log("response: ", response.data.results.length>0);
+      // 
       setSearchResults(response.data.results);
     } catch (error) {
-      console.log("error", error);
+      
     }
   };
-  // console.log("length", searchResults);
+  // 
   // if (searchResults) {
   if (searchResults.length > 0) {
     return (
@@ -46,7 +46,7 @@ export const SearchPage = () => {
         {searchResults.map((movie) => {
           if (movie.backdrop_path !== null && movie.media_type !== "person") {
             const movieImageUrl = "https://image.tmdb.org/t/p/w500" + movie.backdrop_path;
-            // console.log('movieImageUrl: ', movieImageUrl);
+            // 
             return (
               <div className='movie' key={movie.id}>
                 <div className='movie_column-poster' onClick={() => navigate(`/${movie.id}`)}>
