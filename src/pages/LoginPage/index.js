@@ -1,13 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+  const testclick = () => {
+    navigate("/main");
+  };
   return (
     <Container>
       <Content>
         <Center>
           <LogoOne src='/images/cta-logo-one.svg' alt='logo-one' />
-          <SignUpLink>Sign up now</SignUpLink>
+          <SignUpLink onClick={testclick}>Explore the site!</SignUpLink>
+          {/* <SignUpLink>Please log in to explore the site.</SignUpLink> */}
+          {/* <SignUpLink>Sign up now</SignUpLink> */}
           <Description>
             Save over 15% on your premium or Standard plan with an annual subscription
           </Description>

@@ -26,7 +26,7 @@ function MovieModal({
       {/* {console.log("setModalOpen", setModalOpen===true)} */}
       <div className='wrapper-modal'>
         <div className='modal' ref={ref}>
-          {console.log("rrr", ref)}
+          {/* {console.log("rrr", ref)} */}
           <span
             className='modal-close'
             onClick={() => {
