@@ -23,9 +23,9 @@ function Nav() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [userData, setUserData] = useState(initailUserData);
-  // console.log("userData: ", userData);
-
+  const [userData, setUserData] = useState(null);
+  // console.log("uuuuuuu: ", userData);
+  // console.log("iiiiiii", initailUserData);
   // useEffect(() => {
   //   onAuthStateChanged(auth, (user) => {
   //     if (user) {
@@ -37,13 +37,6 @@ function Nav() {
   //     }
   //   });
   // }, [auth, navigate, pathname]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    // return () => {
-    //   window.removeEventListener("scroll", handleScroll);
-    // };
-  }, []);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -62,8 +55,8 @@ function Nav() {
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // console.log('result: ', result);
-        // setUserData(result.user);
+        // console.log("result: ", result);
+        setUserData(result.user);
         localStorage.setItem("userData", JSON.stringify(result.user));
       })
       .catch((error) => {
@@ -73,7 +66,9 @@ function Nav() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        setUserData({});
+        setUserData();
+        localStorage.removeItem("userData");
+
         navigate("/");
       })
       .catch((error) => {
@@ -81,6 +76,13 @@ function Nav() {
         console.log("error", error);
       });
   };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    navigate("/");
+  }, [userData]);
 
   return (
     <NavWrapper show2={show}>
@@ -91,27 +93,22 @@ function Nav() {
           onClick={() => (window.location.href = "/")}
         />
       </Logo>
-      {pathname === "/" ? (
-        <Login onClick={handleAuth}>Login</Login>
+      <Input
+        value={searchValue}
+        onChange={handleChange}
+        className='nav_input'
+        type='text'
+        placeholder='search movie'
+      />
+      {initailUserData.email ? (
+        <SignOut>
+          <UserImg src={initailUserData.photoURL} alt={initailUserData.displayName} />
+          <DropDown>
+            <span onClick={handleSignOut}>Sign out</span>
+          </DropDown>
+        </SignOut>
       ) : (
-        <>
-          <Input
-            value={searchValue}
-            onChange={handleChange}
-            className='nav_input'
-            type='text'
-            placeholder='search movie'
-          />
-          {/* {pathname !== "/" && ( */}
-          <SignOut>
-            {/* {userData.displayName} */}
-            <UserImg src={userData.photoURL} alt={userData.displayName} />
-            <DropDown>
-              <span onClick={handleSignOut}>Sign out</span>
-            </DropDown>
-          </SignOut>
-          {/* )} */}
-        </>
+        <Login onClick={handleAuth}>Login</Login>
       )}
     </NavWrapper>
   );
