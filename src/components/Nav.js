@@ -24,6 +24,7 @@ function Nav() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const [userData, setUserData] = useState(null);
+  // const firstName = useState(userData?.displayName.split(" ")[0])
   // console.log("uuuuuuu: ", userData);
   // console.log("iiiiiii", initailUserData);
   // useEffect(() => {
@@ -55,21 +56,28 @@ function Nav() {
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // console.log("result: ", result);
+        // console.log("result: ", result.user.displayName.split(" ")[0]);
         setUserData(result.user);
         localStorage.setItem("userData", JSON.stringify(result.user));
+        // let first = result.user.displayName.split(" ")[0]
+        // setFirstName(first)
+        // console.log('ffff', firstName)
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
+
+  //   let myStr = "Hello World"
+  // let firstWord = myStr.split(" ")[0]
+  // console.log(firstWord)
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
         setUserData();
         localStorage.removeItem("userData");
-
-        navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         // alert(error.message);
@@ -102,7 +110,9 @@ function Nav() {
       />
       {initailUserData.email ? (
         <SignOut>
+          <p>{`Hello ` + initailUserData.displayName.split(" ")[0] + `!`}</p>
           <UserImg src={initailUserData.photoURL} alt={initailUserData.displayName} />
+          {/* <UserImg bg={initailUserData.photoURL} src={initailUserData.photoURL} alt={initailUserData.displayName} /> */}
           <DropDown>
             <span onClick={handleSignOut}>Sign out</span>
           </DropDown>
@@ -171,9 +181,10 @@ const Logo = styled.a`
 `;
 const DropDown = styled.div`
   position: absolute;
-  top: 48px;
-  right: 0;
-  background: rgb(19, 19, 19);
+  top: 50px;
+  right: 10px;
+  background: #fff;
+  /* background: rgb(19, 19, 19); */
   border: 1px solid rgba(151, 151, 151, 0.34);
   border-radius: 4px;
   bax-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
@@ -182,25 +193,53 @@ const DropDown = styled.div`
   letter-spacing: 3px;
   width: 100%;
   opacity: 0;
+  /* :hover{
+    opacity: 1;
+      transition-duration: 1s;
+  } */
 `;
 const SignOut = styled.div`
   position: relative;
-  height: 48px;
-  width: 48px;
+  height: 50px;
+  width: 250px;
   display: flex;
-  cursor: pointer;
+  /* justify-content:center; */
   align-items: center;
-  justify-content: center;
+  cursor: pointer;
+  /* background: pink; */
+  p {
+    color: #fff;
+    width: 200px;
+    height: 15px;
+    /* background: orange; */
+    text-align: end;
+    font-size: 14px;
+    letter-spacing: 3px;
+    padding-right:10px;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+    /* background: blue; */
+  }
 
   &:hover {
     ${DropDown} {
       opacity: 1;
-      transition-duration: 1s;
+      transition-duration: 0.5s;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      color: #111;
+      /* inset: 0px; */
     }
   }
 `;
 const UserImg = styled.img`
+  object-fit: cover;
   border-radius: 50%;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
 `;
+/* background-image:url(bg) */
+/* background-image:url('/images/login-background.jpg') */
