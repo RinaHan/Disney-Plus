@@ -23,6 +23,8 @@ function Nav() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  const location = useLocation();
+  console.log("test: ", location.pathname === "/");
   // const [userData, setUserData] = useState(null);
   // const firstName = useState(userData?.displayName.split(" ")[0])
   // console.log("uuuuuuu: ", userData);
@@ -108,13 +110,15 @@ function Nav() {
           onClick={() => (window.location.href = "/main")}
         />
       </Logo>
-      <Input
-        value={searchValue}
-        onChange={handleChange}
-        className='nav_input'
-        type='text'
-        placeholder='search movie'
-      />
+      {location.pathname !== "/" && (
+        <Input
+          value={searchValue}
+          onChange={handleChange}
+          className='nav_input'
+          type='text'
+          placeholder='search movie'
+        />
+      )}
       {initailUserData.uid ? (
         <SignOut>
           <p>{`Hello ` + initailUserData.displayName.split(" ")[0] + `!`}</p>
