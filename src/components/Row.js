@@ -21,6 +21,7 @@ const Row = (props, id) => {
   const [movies, setMovies] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [movieSelected, setMovieSelected] = useState({});
+  // console.log('movieSelected: ', movieSelected);
 
   const fetchMovieData = useCallback(async () => {
     // const response = await axios.get(fetchUrl);

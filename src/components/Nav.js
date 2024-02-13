@@ -24,7 +24,7 @@ function Nav() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const location = useLocation();
-  console.log("test: ", location.pathname === "/");
+  // console.log("test: ", location.pathname === "/");
   // const [userData, setUserData] = useState(null);
   // const firstName = useState(userData?.displayName.split(" ")[0])
   // console.log("uuuuuuu: ", userData);
@@ -129,7 +129,7 @@ function Nav() {
           </DropDown>
         </SignOut>
       ) : (
-        <Login onClick={handleAuth}>Login</Login>
+        <Login onClick={handleAuth}>Log in</Login>
       )}
     </NavWrapper>
   );
@@ -154,7 +154,7 @@ const NavWrapper = styled.nav`
 const Login = styled.a`
   background-color: rgba(0, 0, 0, 0.6);
   padding: 8px 16px;
-  /* text-transform: uppercase; */
+  text-transform: uppercase;
   letter-spacing: 1px;
   border: 1px solid #f9f9f9;
   border-radius: 4px;

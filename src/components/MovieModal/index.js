@@ -41,6 +41,7 @@ function MovieModal({
             src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
             alt='modal-img'
           />
+          {/* <div>rate: {vote_average}</div> */}
           <div className='modal_contents'>
             <p className='modal_details'>
               {/* class check */}
