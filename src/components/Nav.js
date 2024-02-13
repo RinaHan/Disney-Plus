@@ -16,14 +16,14 @@ function Nav() {
     : {};
 
   const [show, setShow] = useState(false);
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   // console.log('location', useLocation().pathname)
   // console.log('location', useLocation().search)
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
   // const firstName = useState(userData?.displayName.split(" ")[0])
   // console.log("uuuuuuu: ", userData);
   // console.log("iiiiiii", initailUserData);
@@ -57,11 +57,12 @@ function Nav() {
     signInWithPopup(auth, provider)
       .then((result) => {
         // console.log("result: ", result.user.displayName.split(" ")[0]);
-        setUserData(result.user);
+        // setUserData(result.user);
         localStorage.setItem("userData", JSON.stringify(result.user));
         // let first = result.user.displayName.split(" ")[0]
         // setFirstName(first)
         // console.log('ffff', firstName)
+        navigate("/main");
       })
       .catch((error) => {
         console.log("error", error);
@@ -75,9 +76,9 @@ function Nav() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        setUserData();
+        // setUserData();
         localStorage.removeItem("userData");
-        // navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         // alert(error.message);
@@ -88,9 +89,15 @@ function Nav() {
     window.addEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    navigate("/");
-  }, [userData]);
+  // useEffect(() => {
+  //   if(initailUserData.displayName){
+
+  //     navigate("/main");
+  //   }
+  // else{
+  //   navigate('/')
+  // }
+  // }, []);
 
   return (
     <NavWrapper show2={show}>
@@ -98,7 +105,7 @@ function Nav() {
         <img
           alt='Disney Plus Logo'
           src='/images/logo.svg'
-          onClick={() => (window.location.href = "/")}
+          onClick={() => (window.location.href = "/main")}
         />
       </Logo>
       <Input
@@ -108,7 +115,7 @@ function Nav() {
         type='text'
         placeholder='search movie'
       />
-      {initailUserData.email ? (
+      {initailUserData.uid ? (
         <SignOut>
           <p>{`Hello ` + initailUserData.displayName.split(" ")[0] + `!`}</p>
           <UserImg src={initailUserData.photoURL} alt={initailUserData.displayName} />
@@ -143,15 +150,15 @@ const NavWrapper = styled.nav`
 const Login = styled.a`
   background-color: rgba(0, 0, 0, 0.6);
   padding: 8px 16px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  /* text-transform: uppercase; */
+  letter-spacing: 1px;
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all 0.2s ease 0s;
 
   &:hover {
     background-color: #f9f9f9;
-    color: gray;
+    color: #212121eb;
     border-color: transparent;
   }
 `;
@@ -215,11 +222,11 @@ const SignOut = styled.div`
     text-align: end;
     font-size: 14px;
     letter-spacing: 3px;
-    padding-right:10px;
+    padding-right: 10px;
   }
   img {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     /* background: blue; */
   }
 
@@ -231,6 +238,8 @@ const SignOut = styled.div`
       display: flex;
       justify-content: center;
       color: #111;
+      letter-spacing: 1px;
+      color: #212121eb;
       /* inset: 0px; */
     }
   }

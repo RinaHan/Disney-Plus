@@ -4,15 +4,18 @@ import styled from "styled-components";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const testclick = () => {
-    navigate("/main");
-  };
   return (
     <Container>
       <Content>
         <Center>
           <LogoOne src='/images/cta-logo-one.svg' alt='logo-one' />
-          <SignUpLink onClick={testclick}>Explore the site!</SignUpLink>
+          <SignUpLink
+            onClick={() => {
+              navigate("/main");
+            }}
+          >
+            Explore the site!
+          </SignUpLink>
           {/* <SignUpLink>Please log in to explore the site.</SignUpLink> */}
           {/* <SignUpLink>Sign up now</SignUpLink> */}
           <Description>
