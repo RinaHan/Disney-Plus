@@ -116,7 +116,7 @@ function Nav() {
           onChange={handleChange}
           className='nav_input'
           type='text'
-          placeholder='search movie'
+          placeholder='Search movie..'
         />
       )}
       {initailUserData.uid ? (
@@ -150,6 +150,10 @@ const NavWrapper = styled.nav`
   letter-spacing: 16px;
   z-index: 3;
   background: #090b13;
+  input::placeholder {
+    color: #c2c2c2fa;
+    /* opacity: 1;  */
+  }
 `;
 const Login = styled.a`
   background-color: rgba(0, 0, 0, 0.6);
@@ -159,7 +163,7 @@ const Login = styled.a`
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all 0.2s ease 0s;
-
+  font-size: 14px;
   &:hover {
     background-color: #f9f9f9;
     color: #212121eb;
@@ -170,13 +174,13 @@ const Input = styled.input`
   position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
-  /* background-color: #111; */
-  background-color: rgba(0, 0, 0, 0.582);
-  border-radius: 5px;
-  /* border: #fff 5px solid; */
-  color: white;
+  background-color: #c2c2c224;
+  color: #fff;
   padding: 5px;
   border: none;
+  border: 1px solid #c2c2c2fa;
+  border-radius: 4px;
+  box-sizing: border-box;
 `;
 const Logo = styled.a`
   padding: 0;
