@@ -100,7 +100,7 @@ function Nav() {
   // }, []);
 
   return (
-    <NavWrapper show2={show}>
+    <NavWrapper show={show}>
       <Logo>
         <img
           alt='Disney Plus Logo'
@@ -139,13 +139,13 @@ const NavWrapper = styled.nav`
   left: 0;
   right: 0;
   height: 70px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 3;
+  background: #090b13;
 `;
 const Login = styled.a`
   background-color: rgba(0, 0, 0, 0.6);
