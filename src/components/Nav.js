@@ -19,27 +19,20 @@ function Nav() {
   // const { pathname } = useLocation();
   // console.log('location', useLocation().pathname)
   // console.log('location', useLocation().search)
-  const [searchValue, setSearchValue] = useState("");
+  const [data, setData] = useState("");
+  // console.log('data: ', data);
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const location = useLocation();
-  // console.log("test: ", location.pathname === "/");
-  // const [userData, setUserData] = useState(null);
-  // const firstName = useState(userData?.displayName.split(" ")[0])
-  // console.log("uuuuuuu: ", userData);
-  // console.log("iiiiiii", initailUserData);
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       if (pathname === "/") {
-  //         navigate("/main");
-  //       }
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   });
-  // }, [auth, navigate, pathname]);
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  let query = useQuery();
+  const searchTerm = query.get("q");
+  // console.log('searchTerm: ', searchTerm);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -49,31 +42,23 @@ function Nav() {
     }
   };
 
-  const handleChange = (e) => {
-    setSearchValue(e.target.value);
-    // console.log("target", e.target.value);
-    navigate(`/search?q=${e.target.value}`);
+  const handleDataChange = (event) => {
+    setData(event.target.value);
+    setTimeout(() => {
+      navigate(`/search?q=${event.target.value}`);
+    }, 1300);
   };
 
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // console.log("result: ", result.user.displayName.split(" ")[0]);
-        // setUserData(result.user);
         localStorage.setItem("userData", JSON.stringify(result.user));
-        // let first = result.user.displayName.split(" ")[0]
-        // setFirstName(first)
-        // console.log('ffff', firstName)
         navigate("/main");
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
-
-  //   let myStr = "Hello World"
-  // let firstWord = myStr.split(" ")[0]
-  // console.log(firstWord)
 
   const handleSignOut = () => {
     signOut(auth)
@@ -91,16 +76,6 @@ function Nav() {
     window.addEventListener("scroll", handleScroll);
   }, []);
 
-  // useEffect(() => {
-  //   if(initailUserData.displayName){
-
-  //     navigate("/main");
-  //   }
-  // else{
-  //   navigate('/')
-  // }
-  // }, []);
-
   return (
     <NavWrapper show={show}>
       <Logo>
@@ -112,8 +87,10 @@ function Nav() {
       </Logo>
       {location.pathname !== "/" && (
         <Input
-          value={searchValue}
-          onChange={handleChange}
+          // class='search'
+          // value={data}
+          value={data || searchTerm}
+          onChange={handleDataChange}
           className='nav_input'
           type='text'
           placeholder='Search movie..'
