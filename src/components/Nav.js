@@ -16,27 +16,23 @@ function Nav() {
     : {};
 
   const [show, setShow] = useState(false);
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   // console.log('location', useLocation().pathname)
   // console.log('location', useLocation().search)
-  const [searchValue, setSearchValue] = useState("");
+  const [data, setData] = useState("");
+  // console.log('data: ', data);
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [userData, setUserData] = useState(null);
-  // console.log("uuuuuuu: ", userData);
-  // console.log("iiiiiii", initailUserData);
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       if (pathname === "/") {
-  //         navigate("/main");
-  //       }
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   });
-  // }, [auth, navigate, pathname]);
+  const location = useLocation();
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+
+  let query = useQuery();
+  const searchTerm = query.get("q");
+  // console.log('searchTerm: ', searchTerm);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -46,29 +42,29 @@ function Nav() {
     }
   };
 
-  const handleChange = (e) => {
-    setSearchValue(e.target.value);
-    // console.log("target", e.target.value);
-    navigate(`/search?q=${e.target.value}`);
+  const handleDataChange = (event) => {
+    setData(event.target.value);
+    setTimeout(() => {
+      navigate(`/search?q=${event.target.value}`);
+    }, 1300);
   };
 
   const handleAuth = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // console.log("result: ", result);
-        setUserData(result.user);
         localStorage.setItem("userData", JSON.stringify(result.user));
+        navigate("/main");
       })
       .catch((error) => {
         console.log("error", error);
       });
   };
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        setUserData();
+        // setUserData();
         localStorage.removeItem("userData");
-
         navigate("/");
       })
       .catch((error) => {
@@ -80,35 +76,37 @@ function Nav() {
     window.addEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    navigate("/");
-  }, [userData]);
-
   return (
-    <NavWrapper show2={show}>
+    <NavWrapper show={show}>
       <Logo>
         <img
           alt='Disney Plus Logo'
           src='/images/logo.svg'
-          onClick={() => (window.location.href = "/")}
+          onClick={() => (window.location.href = "/main")}
         />
       </Logo>
-      <Input
-        value={searchValue}
-        onChange={handleChange}
-        className='nav_input'
-        type='text'
-        placeholder='search movie'
-      />
-      {initailUserData.email ? (
+      {location.pathname !== "/" && (
+        <Input
+          // class='search'
+          // value={data}
+          value={data || searchTerm}
+          onChange={handleDataChange}
+          className='nav_input'
+          type='text'
+          placeholder='Search movie..'
+        />
+      )}
+      {initailUserData.uid ? (
         <SignOut>
+          <p>{`Hello ` + initailUserData.displayName.split(" ")[0] + `!`}</p>
           <UserImg src={initailUserData.photoURL} alt={initailUserData.displayName} />
+          {/* <UserImg bg={initailUserData.photoURL} src={initailUserData.photoURL} alt={initailUserData.displayName} /> */}
           <DropDown>
             <span onClick={handleSignOut}>Sign out</span>
           </DropDown>
         </SignOut>
       ) : (
-        <Login onClick={handleAuth}>Login</Login>
+        <Login onClick={handleAuth}>Log in</Login>
       )}
     </NavWrapper>
   );
@@ -122,26 +120,30 @@ const NavWrapper = styled.nav`
   left: 0;
   right: 0;
   height: 70px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 3;
+  background: #090b13;
+  input::placeholder {
+    color: #c2c2c2fa;
+    /* opacity: 1;  */
+  }
 `;
 const Login = styled.a`
   background-color: rgba(0, 0, 0, 0.6);
   padding: 8px 16px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   border: 1px solid #f9f9f9;
   border-radius: 4px;
   transition: all 0.2s ease 0s;
-
+  font-size: 14px;
   &:hover {
     background-color: #f9f9f9;
-    color: gray;
+    color: #212121eb;
     border-color: transparent;
   }
 `;
@@ -149,13 +151,13 @@ const Input = styled.input`
   position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
-  /* background-color: #111; */
-  background-color: rgba(0, 0, 0, 0.582);
-  border-radius: 5px;
-  /* border: #fff 5px solid; */
-  color: white;
+  background-color: #c2c2c224;
+  color: #fff;
   padding: 5px;
   border: none;
+  border: 1px solid #c2c2c2fa;
+  border-radius: 4px;
+  box-sizing: border-box;
 `;
 const Logo = styled.a`
   padding: 0;
@@ -171,9 +173,10 @@ const Logo = styled.a`
 `;
 const DropDown = styled.div`
   position: absolute;
-  top: 48px;
-  right: 0;
-  background: rgb(19, 19, 19);
+  top: 50px;
+  right: 10px;
+  background: #fff;
+  /* background: rgb(19, 19, 19); */
   border: 1px solid rgba(151, 151, 151, 0.34);
   border-radius: 4px;
   bax-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
@@ -182,25 +185,55 @@ const DropDown = styled.div`
   letter-spacing: 3px;
   width: 100%;
   opacity: 0;
+  /* :hover{
+    opacity: 1;
+      transition-duration: 1s;
+  } */
 `;
 const SignOut = styled.div`
   position: relative;
-  height: 48px;
-  width: 48px;
+  height: 50px;
+  width: 250px;
   display: flex;
-  cursor: pointer;
+  /* justify-content:center; */
   align-items: center;
-  justify-content: center;
+  cursor: pointer;
+  /* background: pink; */
+  p {
+    color: #fff;
+    width: 200px;
+    height: 15px;
+    /* background: orange; */
+    text-align: end;
+    font-size: 14px;
+    letter-spacing: 3px;
+    padding-right: 10px;
+  }
+  img {
+    width: 45px;
+    height: 45px;
+    /* background: blue; */
+  }
 
   &:hover {
     ${DropDown} {
       opacity: 1;
-      transition-duration: 1s;
+      transition-duration: 0.5s;
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      color: #111;
+      letter-spacing: 1px;
+      color: #212121eb;
+      /* inset: 0px; */
     }
   }
 `;
 const UserImg = styled.img`
+  object-fit: cover;
   border-radius: 50%;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
 `;
+/* background-image:url(bg) */
+/* background-image:url('/images/login-background.jpg') */
